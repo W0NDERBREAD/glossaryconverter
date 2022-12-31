@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -48,14 +49,8 @@ func Convert(glossaryPath string) (map[string]Entry, error) {
 			fmt.Printf("Found : seperator\n")
 			if len(currentEntry[0]) > 0 {
 				fmt.Printf("Found new entry - processing current entry\n")
-				entries[currentEntry[0]] = Entry{
-					word: strings.TrimSpace(currentEntry[0]),
-					defenitions: []Defenition{
-						{
-							defenition: strings.TrimSpace(currentEntry[1]),
-						},
-					},
-				}
+				entry := createEntry(currentEntry[0], currentEntry[1])
+				entries[entry.word] = entry
 				fmt.Printf("New entry: %s\n", entries[currentEntry[0]])
 			}
 			currentEntry[0] = word
@@ -72,17 +67,33 @@ func Convert(glossaryPath string) (map[string]Entry, error) {
 	readFile.Close()
 
 	fmt.Printf("Processing last entry\n")
-	entries[currentEntry[0]] = Entry{
-		word: strings.TrimSpace(currentEntry[0]),
-		defenitions: []Defenition{
-			{
-				defenition: strings.TrimSpace(currentEntry[1]),
-			},
-		},
-	}
+	entry := createEntry(currentEntry[0], currentEntry[1])
+	entries[entry.word] = entry
 	fmt.Printf("New entry: %s\n", entries[currentEntry[0]])
 
 	fmt.Printf("\n\nFinal Entries:\n %+v\n\n\n", entries)
 
 	return entries, nil
+}
+
+func createEntry(key string, value string) Entry {
+	pronunciation := ""
+	word := key
+	re := regexp.MustCompile(`(.*)\((.*)\)`)
+	pronunciationMatch := re.FindStringSubmatch(key)
+	if len(pronunciationMatch) == 3 {
+		word = pronunciationMatch[1]
+		pronunciation = pronunciationMatch[2]
+	}
+
+	entry := Entry{
+		word:          strings.TrimSpace(word),
+		pronunciation: strings.TrimSpace(pronunciation),
+		defenitions: []Defenition{
+			{
+				defenition: strings.TrimSpace(value),
+			},
+		},
+	}
+	return entry
 }
