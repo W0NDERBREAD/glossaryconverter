@@ -45,8 +45,10 @@ func getExpectedEntries() map[string]Entry {
 	}
 
 	entries["Amyrlin Seat (AHM-ehr-lin)"] = Entry{
-		word:        "Amyrlin Seat (AHM-ehr-lin)",
-		defenitions: []Defenition{{defenition: `(1) The title of the leader of the Aes Sedai. Elected for life by the Hall of the Tower, the highest council of the Aes Sedai, which consists of three representatives from each of the seven Ajahs. The Amyrlin Seat has, theoretically at least, almost supreme authority among the Aes Sedai. She ranks as the equal of a king or queen. (2) The throne upon which the leader of the Aes Sedai sits.`}},
+		word: "Amyrlin Seat (AHM-ehr-lin)",
+		defenitions: []Defenition{{defenition: `(1) The title of the leader of the Aes Sedai.
+
+Elected for life by the Hall of the Tower, the highest council of the Aes Sedai, which consists of three representatives from each of the seven Ajahs. The Amyrlin Seat has, theoretically at least, almost supreme authority among the Aes Sedai. She ranks as the equal of a king or queen. (2) The throne upon which the leader of the Aes Sedai sits.`}},
 	}
 
 	entries["Andor ( AN-door)"] = Entry{
@@ -65,8 +67,10 @@ func getExpectedEntries() map[string]Entry {
 	}
 
 	entries["currency"] = Entry{
-		word:        "currency",
-		defenitions: []Defenition{{defenition: "After many centuries of trade, the standard terms for coins are the same in every land: crowns (the largest coin in size), marks and pennies. Crowns and marks can be minted of gold or silver, while pennies can be silver or copper, the last often called simply a copper. In different lands, however, these coins are of different sizes and weights. Even in one nation, coins of different sizes and weights have been minted by different rulers. Because of trade, the coins of many nations can be found almost anywhere, and for that reason, bankers, moneylenders and merchants all use scales to determine the value of any given coin. Even large numbers of coins are weighed. The heaviest coins come from Andor and Tar Valon, and in those two places the relative values are: 10 copper pennies = 1 silver penny; 100 silver pennies = 1 silver mark; 10 silver marks = 1 silver crown; 10 silver crowns = 1 gold mark; 10 gold marks = 1 gold crown. By contrast, in Altara, where the larger coins contain less gold or silver, the relative values are: 10 copper pennies = 1 silver penny; 21 silver pennies = 1 silver mark; 20 silver marks = 1 silver crown; 20 silver crowns = 1 gold mark; 20 gold marks = 1 gold crown."}},
+		word: "currency",
+		defenitions: []Defenition{{defenition: `After many centuries of trade, the standard terms for coins are the same in every land: crowns (the largest coin in size), marks and pennies. Crowns and marks can be minted of gold or silver, while pennies can be silver or copper, the last often called simply a copper. In different lands, however, these coins are of different sizes and weights. Even in one nation, coins of different sizes and weights have been minted by different rulers. Because of trade, the coins of many nations can be found almost anywhere, and for that reason, bankers, moneylenders and merchants all use scales to determine the value of any given coin. Even large numbers of coins are weighed.
+
+The heaviest coins come from Andor and Tar Valon, and in those two places the relative values are: 10 copper pennies = 1 silver penny; 100 silver pennies = 1 silver mark; 10 silver marks = 1 silver crown; 10 silver crowns = 1 gold mark; 10 gold marks = 1 gold crown. By contrast, in Altara, where the larger coins contain less gold or silver, the relative values are: 10 copper pennies = 1 silver penny; 21 silver pennies = 1 silver mark; 20 silver marks = 1 silver crown; 20 silver crowns = 1 gold mark; 20 gold marks = 1 gold crown.`}},
 	}
 
 	entries["Hundred Companions, the"] = Entry{

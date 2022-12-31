@@ -38,10 +38,13 @@ func Convert(glossaryPath string) (map[string]Entry, error) {
 		fmt.Printf("\n\n\nProcessing line: %s\n", line)
 
 		word, defenition, found := strings.Cut(line, ":")
-		word = strings.TrimSpace(word)
-		defenition = strings.TrimSpace(defenition)
 
-		if found && strings.Count(word, " ") < longestWord-1 {
+		if found && strings.Count(strings.Trim(word, " "), " ") > longestWord-1 {
+			word = fmt.Sprintf("%s:%s", word, defenition)
+			found = false
+		}
+
+		if found {
 			fmt.Printf("Found : seperator\n")
 			if len(currentEntry[0]) > 0 {
 				fmt.Printf("Found new entry - processing current entry\n")
@@ -58,13 +61,9 @@ func Convert(glossaryPath string) (map[string]Entry, error) {
 			currentEntry[0] = word
 			currentEntry[1] = defenition
 			fmt.Printf("New currentEntry:\n\tword: %s\n\tdefenition: %s\n", currentEntry[0], currentEntry[1])
-		} else if found {
-			fmt.Printf("Found seperator in defenition\n")
-			currentEntry[1] = fmt.Sprintf("%s %s: %s", strings.TrimSpace(currentEntry[1]), strings.TrimSpace(word), strings.TrimSpace(defenition))
-			fmt.Printf("Updated currentEntry:\n\tword: %s\n\tdefenition: %s\n", currentEntry[0], currentEntry[1])
 		} else {
 			fmt.Printf("No : seperator found\n")
-			currentEntry[1] = fmt.Sprintf("%s %s", strings.TrimSpace(currentEntry[1]), strings.TrimSpace(word))
+			currentEntry[1] = fmt.Sprintf("%s%s%s", currentEntry[1], fmt.Sprintln(""), word)
 			fmt.Printf("Updated currentEntry:\n\tword: %s\n\tdefenition: %s\n", currentEntry[0], currentEntry[1])
 		}
 		fmt.Printf("Finished processing line\n")
