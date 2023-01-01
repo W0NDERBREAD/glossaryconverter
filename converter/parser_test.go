@@ -1,11 +1,13 @@
 package converter
 
 import (
+	"path/filepath"
 	"reflect"
 	"testing"
 )
 
 func TestConvert(t *testing.T) {
+	glossaryFile := filepath.Join("testdata", "glossary.txt")
 	type args struct {
 		glossaryPath string
 	}
@@ -17,7 +19,7 @@ func TestConvert(t *testing.T) {
 	}{
 		{
 			name:    "Converts entries",
-			args:    args{glossaryPath: "C:\\Projects\\GoLang\\glossaryconverter\\converter\\testdata\\glossary.txt"},
+			args:    args{glossaryPath: glossaryFile},
 			want:    getExpectedEntries(),
 			wantErr: false,
 		},
