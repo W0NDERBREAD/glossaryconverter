@@ -77,29 +77,35 @@ func Convert(glossaryPath string) (map[string]Entry, error) {
 }
 
 func createEntry(key string, value string) Entry {
-	pronunciation := ""
-	word := key
+	word, pronunciation := extractPonunciationFromWord(key)
+	defenitions := extractDefenitions(value)
+
+	return Entry{
+		word:          strings.TrimSpace(word),
+		pronunciation: strings.TrimSpace(pronunciation),
+		defenitions:   defenitions,
+	}
+}
+
+func extractPonunciationFromWord(key string) (word string, pronunciation string) {
+	word = key
 	wordPronunciationRe := regexp.MustCompile(`(.*)\((.*)\)`)
 	pronunciationMatch := wordPronunciationRe.FindStringSubmatch(key)
-
-	var defenitions []Defenition
-
-	for _, defenition := range regexp.MustCompile(`(?:\(\d+\))`).Split(value, -1) {
-		defenition = strings.TrimSpace(defenition)
-		if len(defenition) > 0 {
-			defenitions = append(defenitions, Defenition{defenition: defenition})
-		}
-	}
 
 	if len(pronunciationMatch) == 3 {
 		word = pronunciationMatch[1]
 		pronunciation = pronunciationMatch[2]
 	}
 
-	entry := Entry{
-		word:          strings.TrimSpace(word),
-		pronunciation: strings.TrimSpace(pronunciation),
-		defenitions:   defenitions,
+	return strings.TrimSpace(word), strings.TrimSpace(pronunciation)
+}
+
+func extractDefenitions(value string) (defenitions []Defenition) {
+	for _, defenition := range regexp.MustCompile(`(?:\(\d+\))`).Split(value, -1) {
+		defenition = strings.TrimSpace(defenition)
+		if len(defenition) > 0 {
+			defenitions = append(defenitions, Defenition{defenition: defenition})
+		}
 	}
-	return entry
+	return defenitions
 }
