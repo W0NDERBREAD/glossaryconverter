@@ -7,7 +7,6 @@ import (
 )
 
 func TestConvert(t *testing.T) {
-	glossaryFile := filepath.Join("testdata", "glossary.txt")
 	type args struct {
 		glossaryPath string
 	}
@@ -18,9 +17,39 @@ func TestConvert(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "Converts entries",
-			args:    args{glossaryPath: glossaryFile},
-			want:    getExpectedEntries(),
+			name: "Converts word with defenition",
+			args: args{glossaryPath: filepath.Join("testdata", "standard.txt")},
+			want: map[string]Entry{
+				"Hundred Companions, the": {
+					word:        "Hundred Companions, the",
+					defenitions: []Defenition{{defenition: "One hundred male Aes Sedai, among the most powerful of the Age of Legends, who, led by Lews Therin Telamon, launched the final stroke that ended the War of the Shadow by sealing the Dark One back into his prison. The Dark One’s counterstroke tainted saidin; the Hundred Companions went mad and began the Breaking of the World."}},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "Converts word with pronunciation",
+			args: args{glossaryPath: filepath.Join("testdata", "pronunciation.txt")},
+			want: map[string]Entry{
+				"Ajah": {
+					word:          "Ajah",
+					pronunciation: "AH-jah",
+					defenitions:   []Defenition{{defenition: "Societies among the Aes Sedai, to which all Aes Sedai belong. They are designated by colors: Blue Ajah, Red Ajah, White Ajah, Green Ajah, Brown Ajah, Yellow Ajah, and Gray Ajah. Each follows a specific philosophy of the use of the One Power and purposes of the Aes Sedai. For example, the Red Ajah bends all its energies to finding and gentling men who are attempting to wield the Power. The Brown Ajah, on the other hand, forsakes involvement with the world and dedicates itself to seeking knowledge. There are rumors (hotly denied, and never safely mentioned in front of any Aes Sedai) of a Black Ajah, dedicated to serving the Dark One."}},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "Converts defenition spanning multiple lines",
+			args: args{glossaryPath: filepath.Join("testdata", "multiline.txt")},
+			want: map[string]Entry{
+				"currency": {
+					word: "currency",
+					defenitions: []Defenition{{defenition: `After many centuries of trade, the standard terms for coins are the same in every land: crowns (the largest coin in size), marks and pennies. Crowns and marks can be minted of gold or silver, while pennies can be silver or copper, the last often called simply a copper. In different lands, however, these coins are of different sizes and weights. Even in one nation, coins of different sizes and weights have been minted by different rulers. Because of trade, the coins of many nations can be found almost anywhere, and for that reason, bankers, moneylenders and merchants all use scales to determine the value of any given coin. Even large numbers of coins are weighed.
+
+The heaviest coins come from Andor and Tar Valon, and in those two places the relative values are: 10 copper pennies = 1 silver penny; 100 silver pennies = 1 silver mark; 10 silver marks = 1 silver crown; 10 silver crowns = 1 gold mark; 10 gold marks = 1 gold crown. By contrast, in Altara, where the larger coins contain less gold or silver, the relative values are: 10 copper pennies = 1 silver penny; 21 silver pennies = 1 silver mark; 20 silver marks = 1 silver crown; 20 silver crowns = 1 gold mark; 20 gold marks = 1 gold crown.`}},
+				},
+			},
 			wantErr: false,
 		},
 	}
