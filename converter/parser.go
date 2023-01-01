@@ -79,8 +79,18 @@ func Convert(glossaryPath string) (map[string]Entry, error) {
 func createEntry(key string, value string) Entry {
 	pronunciation := ""
 	word := key
-	re := regexp.MustCompile(`(.*)\((.*)\)`)
-	pronunciationMatch := re.FindStringSubmatch(key)
+	wordPronunciationRe := regexp.MustCompile(`(.*)\((.*)\)`)
+	pronunciationMatch := wordPronunciationRe.FindStringSubmatch(key)
+
+	var defenitions []Defenition
+
+	for _, defenition := range regexp.MustCompile(`(?:\(\d+\))`).Split(value, -1) {
+		defenition = strings.TrimSpace(defenition)
+		if len(defenition) > 0 {
+			defenitions = append(defenitions, Defenition{defenition: defenition})
+		}
+	}
+
 	if len(pronunciationMatch) == 3 {
 		word = pronunciationMatch[1]
 		pronunciation = pronunciationMatch[2]
@@ -89,11 +99,7 @@ func createEntry(key string, value string) Entry {
 	entry := Entry{
 		word:          strings.TrimSpace(word),
 		pronunciation: strings.TrimSpace(pronunciation),
-		defenitions: []Defenition{
-			{
-				defenition: strings.TrimSpace(value),
-			},
-		},
+		defenitions:   defenitions,
 	}
 	return entry
 }

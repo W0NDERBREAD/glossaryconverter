@@ -52,6 +52,18 @@ The heaviest coins come from Andor and Tar Valon, and in those two places the re
 			},
 			wantErr: false,
 		},
+		{
+			name: "Converts words with multiple defenitions",
+			args: args{glossaryPath: filepath.Join("testdata", "multiDefenition.txt")},
+			want: map[string]Entry{
+				"channel": {
+					word:          "channel",
+					pronunciation: "",
+					defenitions:   []Defenition{{defenition: "To control the flow of the One Power."}, {defenition: "The act of controlling the flow of the One Power."}},
+				},
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
